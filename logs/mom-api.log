@@ -1,0 +1,93 @@
+2024-11-16T12:23:42.372+08:00  INFO 13292 --- [main] com.zhgw.MomApiApplication               : Starting MomApiApplication using Java 17.0.13 with PID 13292 (E:\myJcode\sim_mom\mom-api\target\classes started by 847503085 in E:\myJcode\sim_mom)
+2024-11-16T12:23:42.375+08:00 DEBUG 13292 --- [main] com.zhgw.MomApiApplication               : Running with Spring Boot v3.1.5, Spring v6.0.13
+2024-11-16T12:23:42.376+08:00  INFO 13292 --- [main] com.zhgw.MomApiApplication               : No active profile set, falling back to 1 default profile: "default"
+2024-11-16T12:23:44.393+08:00  INFO 13292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-11-16T12:23:44.413+08:00  INFO 13292 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-16T12:23:44.430+08:00  INFO 13292 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-11-16T12:23:44.721+08:00  INFO 13292 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2024-11-16T12:23:44.725+08:00  INFO 13292 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2268 ms
+2024-11-16T12:23:45.512+08:00  WARN 13292 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sysUserController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'sysUserServiceImpl': Unsatisfied dependency expressed through field 'passwordEncoder': No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2024-11-16T12:23:45.516+08:00  INFO 13292 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-11-16T12:23:45.546+08:00  INFO 13292 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-11-16T12:23:45.596+08:00 ERROR 13292 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field passwordEncoder in com.zhgw.service.impl.SysUserServiceImpl required a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration.
+
+2024-11-16T12:25:54.425+08:00  INFO 8316 --- [main] com.zhgw.MomApiApplication               : Starting MomApiApplication using Java 17.0.13 with PID 8316 (E:\myJcode\sim_mom\mom-api\target\classes started by 847503085 in E:\myJcode\sim_mom)
+2024-11-16T12:25:54.429+08:00 DEBUG 8316 --- [main] com.zhgw.MomApiApplication               : Running with Spring Boot v3.1.5, Spring v6.0.13
+2024-11-16T12:25:54.431+08:00  INFO 8316 --- [main] com.zhgw.MomApiApplication               : No active profile set, falling back to 1 default profile: "default"
+2024-11-16T12:25:56.452+08:00  INFO 8316 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-11-16T12:25:56.481+08:00  INFO 8316 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-16T12:25:56.483+08:00  INFO 8316 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-11-16T12:25:56.651+08:00  INFO 8316 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2024-11-16T12:25:56.652+08:00  INFO 8316 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2145 ms
+2024-11-16T12:25:57.303+08:00  WARN 8316 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sysUserController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'sysUserServiceImpl': Unsatisfied dependency expressed through field 'passwordEncoder': No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2024-11-16T12:25:57.309+08:00  INFO 8316 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-11-16T12:25:57.330+08:00  INFO 8316 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-11-16T12:25:57.368+08:00 ERROR 8316 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field passwordEncoder in com.zhgw.service.impl.SysUserServiceImpl required a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration.
+
+2024-11-16T12:26:18.691+08:00  INFO 9472 --- [main] com.zhgw.MomApiApplication               : Starting MomApiApplication using Java 17.0.13 with PID 9472 (E:\myJcode\sim_mom\mom-api\target\classes started by 847503085 in E:\myJcode\sim_mom)
+2024-11-16T12:26:18.694+08:00 DEBUG 9472 --- [main] com.zhgw.MomApiApplication               : Running with Spring Boot v3.1.5, Spring v6.0.13
+2024-11-16T12:26:18.695+08:00  INFO 9472 --- [main] com.zhgw.MomApiApplication               : No active profile set, falling back to 1 default profile: "default"
+2024-11-16T12:26:20.922+08:00  INFO 9472 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-11-16T12:26:20.957+08:00  INFO 9472 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-16T12:26:20.959+08:00  INFO 9472 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-11-16T12:26:21.153+08:00  INFO 9472 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2024-11-16T12:26:21.155+08:00  INFO 9472 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2364 ms
+2024-11-16T12:26:21.928+08:00  WARN 9472 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sysUserController': Unsatisfied dependency expressed through field 'userService': Error creating bean with name 'sysUserServiceImpl': Unsatisfied dependency expressed through field 'passwordEncoder': No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2024-11-16T12:26:21.936+08:00  INFO 9472 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-11-16T12:26:21.949+08:00  INFO 9472 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-11-16T12:26:22.005+08:00 ERROR 9472 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field passwordEncoder in com.zhgw.service.impl.SysUserServiceImpl required a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration.
+
