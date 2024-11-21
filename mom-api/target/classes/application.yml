@@ -1,0 +1,41 @@
+# 服务器配置
+server:
+  port: 8080  # 服务端口
+
+# Spring配置
+spring:
+  # 应用名称
+  application:
+    name: mom-api
+    
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sim_mom?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: zt159357
+    sql:
+      init:
+        mode: always                                # 始终执行初始化
+        schema-locations: classpath:db/schema.sql   # 建表语句
+        data-locations: classpath:db/init_data.sql  # 数据初始化
+        encoding: UTF-8
+    
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update  # 自动更新表结构
+    show-sql: true      # 显示SQL语句
+    properties:
+      hibernate:
+        format_sql: true  # 格式化SQL语句
+        
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # 日期格式化
+    time-zone: GMT+8                  # 时区设置
+
+# 日志配置
+logging:
+  level:
+    com.zhgw: debug  # 项目包的日志级别 

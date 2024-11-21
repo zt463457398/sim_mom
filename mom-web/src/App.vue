@@ -1,0 +1,28 @@
+<template>
+  <router-view />
+</template>
+
+<script setup lang="ts">
+// 使用TypeScript
+</script>
+
+<style>
+#app {
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+
+/* 重置一些基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+</style>

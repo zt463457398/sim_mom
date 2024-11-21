@@ -1,0 +1,6 @@
+/dist/
+/node_modules/
+.eslintrc.js
+babel.config.js
+vue.config.js
+*.d.ts 
