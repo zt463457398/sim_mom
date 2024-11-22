@@ -48,7 +48,7 @@ import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { User, Lock } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import request from '@/utils/request'
 
 const router = useRouter()
 const loginFormRef = ref(null)
@@ -73,18 +73,14 @@ const handleLogin = () => {
     if (valid) {
       loading.value = true
       try {
-        const { data } = await axios.post('/api/user/login', loginForm)
-        if (data.code === 200) {
-          ElMessage.success('登录成功')
-          // 存储用户信息
-          localStorage.setItem('userInfo', JSON.stringify(data.data))
-          // 跳转到首页
-          router.push('/home')
-        } else {
-          ElMessage.error(data.msg || '登录失败')
-        }
+        const res = await request.post('/api/user/login', loginForm)
+        // 存储token和用户信息
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo))
+        ElMessage.success('登录成功')
+        router.push('/home')
       } catch (error) {
-        ElMessage.error('登录失败，请稍后重试')
+        console.error('登录失败：', error)
       } finally {
         loading.value = false
       }
