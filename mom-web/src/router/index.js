@@ -1,12 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import BaseLayout from '../components/layout/BaseLayout.vue'
-import UserLogin from '../views/UserLogin.vue'
-import HomeView from '../views/HomeView.vue'
-import UserProfile from '../views/profile/UserProfile.vue'
-import ChangePassword from '../views/profile/ChangePassword.vue'
-import UserList from '../views/system/user/UserList.vue'
+import systemRoutes from './modules/system'
+import profileRoutes from './modules/profile'
 
-const routes = [
+// 基础路由
+const baseRoutes = [
   {
     path: '/',
     redirect: '/home'
@@ -14,46 +11,35 @@ const routes = [
   {
     path: '/login',
     name: 'UserLogin',
-    component: UserLogin
+    component: () => import('@/views/UserLogin.vue')
   },
   {
     path: '/',
-    component: BaseLayout,
+    component: () => import('@/components/layout/BaseLayout.vue'),
     children: [
       {
         path: 'home',
         name: 'Home',
-        component: HomeView,
-        meta: { requiresAuth: true }
-      },
-      {
-        path: 'profile',
-        name: 'Profile',
-        component: UserProfile,
-        meta: { requiresAuth: true }
-      },
-      {
-        path: 'change-password',
-        name: 'ChangePassword',
-        component: ChangePassword,
-        meta: { requiresAuth: true }
-      },
-      {
-        path: 'system/user',
-        name: 'UserList',
-        component: UserList,
-        meta: { 
-          requiresAuth: true,
-          title: '用户管理'
+        component: () => import('@/views/HomeView.vue'),
+        meta: {
+          title: '首页',
+          icon: 'House',
+          requiresAuth: true
         }
       }
     ]
   }
 ]
 
+// 动态路由
+const asyncRoutes = [
+  systemRoutes,
+  profileRoutes
+]
+
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes: [...baseRoutes, ...asyncRoutes]
 })
 
 // 路由守卫

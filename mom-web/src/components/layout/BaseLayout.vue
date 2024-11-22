@@ -11,23 +11,44 @@
         background-color="#304156"
         text-color="#bfcbd9"
         active-text-color="#409EFF"
+        router
       >
         <el-menu-item index="/home">
           <el-icon><House /></el-icon>
           <template #title>首页</template>
         </el-menu-item>
+
+        <el-sub-menu index="/system">
+          <template #title>
+            <el-icon><Setting /></el-icon>
+            <span>系统管理</span>
+          </template>
+          <el-menu-item index="/system/user">
+            <el-icon><User /></el-icon>
+            <template #title>用户管理</template>
+          </el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </div>
     
     <div class="main">
       <div class="header">
-        <div class="toggle-sidebar" @click="toggleSidebar">
-          <el-icon><Fold v-if="!isCollapse"/><Expand v-else/></el-icon>
+        <div class="header-left">
+          <div class="toggle-sidebar" @click="toggleSidebar">
+            <el-icon><Fold v-if="!isCollapse"/><Expand v-else/></el-icon>
+          </div>
+          <nav-breadcrumb />
         </div>
         <header-bar />
       </div>
       <div class="content">
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <transition name="fade-transform" mode="out-in">
+            <keep-alive :include="cachedViews">
+              <component :is="Component" />
+            </keep-alive>
+          </transition>
+        </router-view>
       </div>
     </div>
   </div>
@@ -36,12 +57,16 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { House, Fold, Expand } from '@element-plus/icons-vue'
+import { House, Setting, User, Fold, Expand } from '@element-plus/icons-vue'
 import HeaderBar from './HeaderBar.vue'
+import NavBreadcrumb from './NavBreadcrumb.vue'
 
 const route = useRoute()
-const isCollapse = ref(true)
+const isCollapse = ref(false)
 const activeMenu = computed(() => route.path)
+
+// 需要缓存的路由组件名称
+const cachedViews = ref(['UserList', 'Profile'])
 
 const toggleSidebar = () => {
   isCollapse.value = !isCollapse.value
@@ -92,10 +117,22 @@ const toggleSidebar = () => {
   padding: 0 15px;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
 .toggle-sidebar {
   padding: 0 15px;
   cursor: pointer;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb {
+  flex: 1;
 }
 
 .content {
@@ -111,5 +148,37 @@ const toggleSidebar = () => {
 
 :deep(.el-menu--collapse) {
   width: 64px;
+}
+
+:deep(.el-sub-menu .el-menu-item) {
+  min-width: 210px;
+}
+
+:deep(.el-menu-item.is-active) {
+  background-color: #263445 !important;
+}
+
+:deep(.el-menu-item:hover) {
+  background-color: #263445 !important;
+}
+
+:deep(.el-sub-menu__title:hover) {
+  background-color: #263445 !important;
+}
+
+/* 添加过渡动画样式 */
+.fade-transform-enter-active,
+.fade-transform-leave-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style> 

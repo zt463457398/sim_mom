@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="header-left">
-      <!-- 预留左侧空间，后续可添加面包屑等 -->
+      <!-- 预留空间，可以添加其他功能按钮 -->
     </div>
     <div class="header-right">
       <div class="server-time">
@@ -9,17 +9,30 @@
         <span class="time-text">{{ currentTime }}</span>
       </div>
       <el-divider direction="vertical" />
-      <el-dropdown @command="handleCommand">
-        <span class="user-info">
-          <el-avatar :size="32" :src="userInfo.avatar || defaultAvatar" />
+      <el-dropdown @command="handleCommand" trigger="click">
+        <div class="user-info">
+          <el-avatar 
+            :size="32" 
+            :src="userInfo.avatar || defaultAvatar"
+            class="user-avatar"
+          />
           <span class="username">{{ userInfo.realName || userInfo.username }}</span>
-          <el-icon class="el-icon--right"><CaretBottom /></el-icon>
-        </span>
+          <el-icon class="dropdown-icon"><CaretBottom /></el-icon>
+        </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-            <el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
-            <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item command="profile">
+              <el-icon><User /></el-icon>
+              <span>个人信息</span>
+            </el-dropdown-item>
+            <el-dropdown-item command="changePwd">
+              <el-icon><Lock /></el-icon>
+              <span>修改密码</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided command="logout">
+              <el-icon><SwitchButton /></el-icon>
+              <span>退出登录</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -31,7 +44,13 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { CaretBottom, Timer } from '@element-plus/icons-vue'
+import { 
+  Timer, 
+  CaretBottom, 
+  User, 
+  Lock, 
+  SwitchButton 
+} from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userInfo = ref({})
@@ -63,19 +82,17 @@ onMounted(() => {
     userInfo.value = JSON.parse(storedUserInfo)
   }
   
-  // 初始化时间并启动定时器
   updateTime()
   timer = setInterval(updateTime, 1000)
 })
 
 onBeforeUnmount(() => {
-  // 组件销毁前清除定时器
   if (timer) {
     clearInterval(timer)
   }
 })
 
-const handleCommand = (command) => {
+const handleCommand = async (command) => {
   switch (command) {
     case 'profile':
       router.push('/profile')
@@ -84,10 +101,19 @@ const handleCommand = (command) => {
       router.push('/change-password')
       break
     case 'logout':
-      localStorage.removeItem('token')
-      localStorage.removeItem('userInfo')
-      router.push('/login')
-      ElMessage.success('退出登录成功')
+      try {
+        await ElMessage.confirm('确认退出登录吗？', '提示', {
+          type: 'warning',
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        })
+        localStorage.removeItem('token')
+        localStorage.removeItem('userInfo')
+        router.push('/login')
+        ElMessage.success('退出登录成功')
+      } catch {
+        // 取消退出
+      }
       break
   }
 }
@@ -100,6 +126,7 @@ const handleCommand = (command) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
 }
 
 .header-left {
@@ -109,40 +136,62 @@ const handleCommand = (command) => {
 .header-right {
   display: flex;
   align-items: center;
-  padding-right: 20px;
+  gap: 16px;
 }
 
 .server-time {
   display: flex;
   align-items: center;
-  margin-right: 8px;
-  color: #666;
+  color: #606266;
   font-size: 14px;
 }
 
 .time-text {
-  margin-left: 5px;
+  margin-left: 6px;
 }
 
 .user-info {
   display: flex;
   align-items: center;
   cursor: pointer;
+  padding: 0 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.user-info:hover {
+  background-color: #f5f7fa;
+}
+
+.user-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .username {
   margin: 0 8px;
   font-size: 14px;
-  color: #333;
+  color: #303133;
 }
 
-.el-dropdown {
+.dropdown-icon {
+  color: #909399;
+  font-size: 12px;
+}
+
+:deep(.el-dropdown-menu__item) {
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+:deep(.el-dropdown-menu__item .el-icon) {
+  margin-right: 4px;
 }
 
 :deep(.el-divider--vertical) {
   height: 20px;
-  margin: 0 15px;
+  margin: 0;
 }
 </style> 
