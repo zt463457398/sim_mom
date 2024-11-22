@@ -1,6 +1,13 @@
 <template>
   <div class="home-container">
-    登录成功
+    <el-card>
+      <template #header>
+        <div class="card-header">
+          <span>首页</span>
+        </div>
+      </template>
+      登录成功
+    </el-card>
   </div>
 </template>
 
@@ -9,6 +16,10 @@
 
 <style scoped>
 .home-container {
-  padding: 20px;
+  min-height: 100%;
+}
+
+.card-header {
+  font-weight: bold;
 }
 </style> 
