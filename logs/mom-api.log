@@ -186,3 +186,14 @@ java.lang.RuntimeException: 密码必须包含数字和字母，长度在8-20位
 2024-11-28 10:50:30.296 INFO  [http-nio-8080-exec-7] com.zhgw.service.impl.SysUserServiceImpl - 用户登录成功: admin
 2024-11-28 10:51:01.082 WARN  [http-nio-8080-exec-2] com.zhgw.service.impl.SysUserServiceImpl - 密码错误: admin
 2024-11-28 10:51:07.262 INFO  [http-nio-8080-exec-7] com.zhgw.service.impl.SysUserServiceImpl - 用户登录成功: admin
+2024-11-28 10:58:51.950 INFO  [main] com.zhgw.MomApiApplication - Starting MomApiApplication using Java 18.0.2.1 with PID 19624 (E:\myAiCode\sim_mom\mom-api\target\classes started by 847503085 in E:\myAiCode\sim_mom)
+2024-11-28 10:58:52.044 INFO  [main] com.zhgw.MomApiApplication - The following 1 profile is active: "dev"
+2024-11-28 10:58:53.749 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-11-28 10:58:53.766 INFO  [main] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-11-28 10:58:53.773 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-11-28 10:58:53.774 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-11-28 10:58:53.873 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-11-28 10:58:53.874 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1748 ms
+2024-11-28 10:58:54.857 INFO  [main] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-11-28 10:58:54.904 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-11-28 10:58:54.921 INFO  [main] com.zhgw.MomApiApplication - Started MomApiApplication in 3.753 seconds (process running for 4.18)
