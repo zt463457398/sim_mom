@@ -130,4 +130,13 @@ public class SysUserController {
             return R.fail("登出失败：" + e.getMessage());
         }
     }
+
+    /**
+     * 获取指定用户信息
+     */
+    @GetMapping("/{userId}/info")
+    @RequireToken
+    public R<SysUser> getUserById(@PathVariable Long userId) {
+        return R.ok(sysUserService.getUserInfo(userId));
+    }
 } 

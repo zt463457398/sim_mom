@@ -47,7 +47,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getUserInfo, updateProfile } from '@/api/user'
+import { getCurrentUserInfo, updateProfile } from '@/api/user'
 
 const formRef = ref(null)
 const loading = ref(false)
@@ -77,7 +77,7 @@ const rules = {
 const fetchUserInfo = async () => {
   try {
     loading.value = true
-    const res = await getUserInfo()
+    const res = await getCurrentUserInfo()
     Object.assign(profileForm.value, res.data)
   } catch (error) {
     ElMessage.error('获取用户信息失败')

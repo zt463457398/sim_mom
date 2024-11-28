@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-// 获取用户信息
-export function getUserInfo() {
+// 获取当前用户信息
+export function getCurrentUserInfo() {
   return request({
     url: '/api/user/info',
     method: 'get'
@@ -60,5 +60,31 @@ export function batchDeleteUsers(userIds) {
     url: '/api/user/batch',
     method: 'delete',
     data: userIds
+  })
+}
+
+// 获取指定用户信息
+export function getUserById(userId) {
+  return request({
+    url: `/api/user/${userId}/info`,
+    method: 'get'
+  })
+}
+
+// 更新用户信息
+export function updateUser(data) {
+  return request({
+    url: `/api/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+// 添加新用户
+export function addUser(data) {
+  return request({
+    url: '/api/user',
+    method: 'post',
+    data
   })
 } 

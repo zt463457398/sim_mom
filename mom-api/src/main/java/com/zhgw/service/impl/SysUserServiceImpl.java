@@ -161,6 +161,9 @@ public class SysUserServiceImpl implements SysUserService {
         user.setStatus(status);
         user.setUpdateTime(LocalDateTime.now());
         sysUserMapper.updateById(user);
+        
+        // 添加日志记录
+        log.info("用户状态更新: userId={}, status={}", userId, status);
     }
 
     @Override

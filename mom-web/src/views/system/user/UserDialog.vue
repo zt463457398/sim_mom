@@ -1,141 +1,172 @@
 <template>
   <el-dialog
-    :title="isEdit ? '编辑用户' : '新增用户'"
-    :model-value="visible"
+    v-model="visible"
+    :title="dialogType === 'add' ? '新增用户' : '编辑用户'"
     width="500px"
-    @close="handleClose"
+    :close-on-click-modal="false"
+    @closed="handleClosed"
   >
     <el-form
       ref="formRef"
       :model="form"
       :rules="rules"
-      label-width="80px"
+      label-width="100px"
     >
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" :disabled="isEdit" placeholder="请输入用户名" />
+      <el-form-item label="用户名" prop="username" v-if="dialogType === 'add'">
+        <el-input v-model="form.username" placeholder="请输入用户名" />
       </el-form-item>
-      <el-form-item label="密码" prop="password" v-if="!isEdit">
-        <el-input v-model="form.password" type="password" show-password placeholder="请输入密码" />
-      </el-form-item>
+      
       <el-form-item label="真实姓名" prop="realName">
         <el-input v-model="form.realName" placeholder="请输入真实姓名" />
       </el-form-item>
+      
       <el-form-item label="手机号码" prop="phone">
         <el-input v-model="form.phone" placeholder="请输入手机号码" />
       </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email" placeholder="请输入邮箱" />
+      
+      <el-form-item label="邮箱地址" prop="email">
+        <el-input v-model="form.email" placeholder="请输入邮箱地址" />
       </el-form-item>
-      <el-form-item label="状态">
-        <el-radio-group v-model="form.status">
-          <el-radio :label="1">启用</el-radio>
-          <el-radio :label="0">禁用</el-radio>
-        </el-radio-group>
+      
+      <el-form-item label="状态" prop="status">
+        <el-switch
+          v-model="form.status"
+          :active-value="1"
+          :inactive-value="0"
+        />
+      </el-form-item>
+      
+      <el-form-item label="密码" prop="password" v-if="dialogType === 'add'">
+        <el-input
+          v-model="form.password"
+          type="password"
+          show-password
+          placeholder="请输入密码"
+        />
       </el-form-item>
     </el-form>
+    
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" :loading="loading" @click="handleSubmit">确 定</el-button>
-      </span>
+      <el-button @click="visible = false">取 消</el-button>
+      <el-button type="primary" :loading="loading" @click="handleSubmit">
+        确 定
+      </el-button>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue'
-//import { defineProps, defineEmits, defineExpose } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import request from '@/utils/request'
+import { addUser, updateUser, getUserById } from '@/api/user'
 
 const props = defineProps({
-  visible: Boolean,
-  isEdit: Boolean,
-  userData: {
-    type: Object,
-    default: () => ({})
+  show: {
+    type: Boolean,
+    default: false
+  },
+  type: {
+    type: String,
+    default: 'add',
+    validator: (value) => ['add', 'edit'].includes(value)
+  },
+  userId: {
+    type: Number,
+    default: null
   }
 })
 
-const emit = defineEmits(['update:visible', 'success'])
+const emit = defineEmits(['update:show', 'success'])
 
+const visible = computed({
+  get: () => props.show,
+  set: (val) => emit('update:show', val)
+})
+
+const dialogType = computed(() => props.type)
 const formRef = ref(null)
 const loading = ref(false)
 
-const form = reactive({
+const form = ref({
   username: '',
-  password: '',
   realName: '',
   phone: '',
   email: '',
-  status: 1
+  status: 1,
+  password: ''
 })
 
 const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能小于6个字符', trigger: 'blur' }
+    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
   ],
   realName: [
-    { required: true, message: '请输入真实姓名', trigger: 'blur' }
+    { required: true, message: '请输入真实姓名', trigger: 'blur' },
+    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
   ],
   phone: [
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
   ],
   email: [
     { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
   ]
 }
 
-// 监听props变化，设置表单数据
-watch(
-  () => props.userData,
-  (newVal) => {
-    if (newVal && Object.keys(newVal).length) {
-      Object.assign(form, newVal)
+// 监听用户ID变化，加载用户信息
+watch(() => props.userId, async (newVal) => {
+  if (dialogType.value === 'edit' && newVal) {
+    try {
+      loading.value = true
+      const res = await getUserById(newVal)
+      Object.assign(form.value, res.data)
+    } catch (error) {
+      ElMessage.error('获取用户信息失败')
+    } finally {
+      loading.value = false
     }
-  },
-  { immediate: true }
-)
+  }
+}, { immediate: true })
 
 const handleSubmit = async () => {
-  await formRef.value.validate()
-  loading.value = true
+  if (!formRef.value) return
+  
   try {
-    if (props.isEdit) {
-      await request.put(`/api/user/${form.id}`, form)
-      ElMessage.success('修改成功')
+    await formRef.value.validate()
+    loading.value = true
+    
+    if (dialogType.value === 'add') {
+      await addUser(form.value)
+      ElMessage.success('添加成功')
     } else {
-      await request.post('/api/user', form)
-      ElMessage.success('新增成功')
+      await updateUser(form.value)
+      ElMessage.success('更新成功')
     }
+    
+    visible.value = false
     emit('success')
-    emit('update:visible', false)
   } catch (error) {
-    console.error(props.isEdit ? '修改失败：' : '新增失败：', error)
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
-const handleClose = () => {
+const handleClosed = () => {
   formRef.value?.resetFields()
-  Object.assign(form, {
+  form.value = {
     username: '',
-    password: '',
     realName: '',
     phone: '',
     email: '',
-    status: 1
-  })
-  emit('update:visible', false)
+    status: 1,
+    password: ''
+  }
 }
-
-defineExpose({
-  form
-})
 </script> 
