@@ -278,3 +278,14 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2024-11-28 11:56:24.814 INFO  [http-nio-8080-exec-2] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2024-11-28 11:56:34.127 INFO  [http-nio-8080-exec-4] com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
 2024-11-28 11:56:34.993 INFO  [http-nio-8080-exec-4] com.zhgw.service.impl.SysUserServiceImpl - 用户登录成功: admin
+2024-11-28 12:02:17.475 INFO  [main] com.zhgw.MomApiApplication - Starting MomApiApplication using Java 18.0.2.1 with PID 12744 (E:\myAiCode\sim_mom\mom-api\target\classes started by 847503085 in E:\myAiCode\sim_mom)
+2024-11-28 12:02:17.565 INFO  [main] com.zhgw.MomApiApplication - The following 1 profile is active: "dev"
+2024-11-28 12:02:19.255 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-11-28 12:02:19.270 INFO  [main] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-11-28 12:02:19.277 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-11-28 12:02:19.277 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-11-28 12:02:19.371 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-11-28 12:02:19.372 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1722 ms
+2024-11-28 12:02:20.331 INFO  [main] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-11-28 12:02:20.375 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-11-28 12:02:20.392 INFO  [main] com.zhgw.MomApiApplication - Started MomApiApplication in 3.874 seconds (process running for 4.336)
