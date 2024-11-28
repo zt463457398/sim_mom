@@ -2,8 +2,24 @@ spring:
   profiles:
     active: dev
   application:
-    name: mom-api 
+    name: mom-api
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
 
 jwt:
   secret: 8Zz5tw0Ionm3XPZZfN0NOml3z9FMfmpgXwovR9fp6ryDIoGRM8EPHAB6iHsc0fb
   expiration: 86400 
+
+# 日志配置
+logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
+  file:
+    name: logs/mom-api.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n"

@@ -1,32 +1,43 @@
 <template>
   <div class="profile-container">
-    <el-card>
+    <el-card class="profile-card">
       <template #header>
         <div class="card-header">
           <span>个人信息</span>
         </div>
       </template>
-      <el-form
+      
+      <el-form 
         ref="formRef"
-        :model="userForm"
+        :model="profileForm"
         :rules="rules"
         label-width="100px"
+        v-loading="loading"
       >
         <el-form-item label="用户名">
-          <el-input v-model="userForm.username" disabled />
+          <el-input v-model="profileForm.username" disabled />
         </el-form-item>
+        
         <el-form-item label="真实姓名" prop="realName">
-          <el-input v-model="userForm.realName" />
+          <el-input v-model="profileForm.realName" />
         </el-form-item>
+        
         <el-form-item label="手机号码" prop="phone">
-          <el-input v-model="userForm.phone" />
+          <el-input v-model="profileForm.phone" />
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="userForm.email" />
+        
+        <el-form-item label="邮箱地址" prop="email">
+          <el-input v-model="profileForm.email" />
         </el-form-item>
+        
         <el-form-item>
-          <el-button type="primary" @click="handleSubmit">保存</el-button>
-          <el-button @click="handleCancel">取消</el-button>
+          <el-button 
+            type="primary" 
+            @click="handleSubmit"
+            :loading="submitting"
+          >
+            保存修改
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -36,16 +47,23 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
-import request from '@/utils/request'
+import { getUserInfo, updateProfile } from '@/api/user'
 
-const router = useRouter()
 const formRef = ref(null)
-const userForm = ref({})
+const loading = ref(false)
+const submitting = ref(false)
+
+const profileForm = ref({
+  username: '',
+  realName: '',
+  phone: '',
+  email: ''
+})
 
 const rules = {
   realName: [
-    { required: true, message: '请输入真实姓名', trigger: 'blur' }
+    { required: true, message: '请输入真实姓名', trigger: 'blur' },
+    { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
   ],
   phone: [
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
@@ -55,29 +73,47 @@ const rules = {
   ]
 }
 
-onMounted(() => {
-  const userInfo = localStorage.getItem('userInfo')
-  if (userInfo) {
-    userForm.value = JSON.parse(userInfo)
-  }
-})
-
-const handleSubmit = async () => {
-  await formRef.value.validate()
+// 获取用户信息
+const fetchUserInfo = async () => {
   try {
-    const res = await request.put('/api/user/profile', userForm.value)
-    ElMessage.success('保存成功')
-    localStorage.setItem('userInfo', JSON.stringify(res.data))
-    // 返回上一页
-    router.back()
+    loading.value = true
+    const res = await getUserInfo()
+    Object.assign(profileForm.value, res.data)
   } catch (error) {
-    console.error('保存失败：', error)
+    ElMessage.error('获取用户信息失败')
+  } finally {
+    loading.value = false
   }
 }
 
-const handleCancel = () => {
-  router.back()
+// 提交表单
+const handleSubmit = async () => {
+  if (!formRef.value) return
+  
+  try {
+    await formRef.value.validate()
+    
+    submitting.value = true
+    await updateProfile(profileForm.value)
+    
+    // 更新本地存储的用户信息
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+    Object.assign(userInfo, profileForm.value)
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    
+    ElMessage.success('保存成功')
+  } catch (error) {
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
+  } finally {
+    submitting.value = false
+  }
 }
+
+onMounted(() => {
+  fetchUserInfo()
+})
 </script>
 
 <style scoped>
@@ -85,11 +121,14 @@ const handleCancel = () => {
   padding: 20px;
 }
 
-.card-header {
-  font-weight: bold;
+.profile-card {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.el-button {
-  margin-right: 10px;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style> 

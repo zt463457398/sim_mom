@@ -109,4 +109,25 @@ public class SysUserController {
         sysUserService.resetPassword(param);
         return R.ok(null);
     }
+
+    /**
+     * 用户登出
+     */
+    @PostMapping("/logout")
+    public R<Void> logout(HttpServletRequest request) {
+        try {
+            // 获取当前用户token
+            String token = request.getHeader("Authorization");
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+            
+            // 可以在这里添加token失效处理逻辑
+            // 比如将token加入黑名单或直接从redis中删除
+            
+            return R.ok(null);
+        } catch (Exception e) {
+            return R.fail("登出失败：" + e.getMessage());
+        }
+    }
 } 

@@ -1,13 +1,13 @@
 package com.zhgw.common.util;
 
-import java.util.regex.Pattern;
-
 public class PasswordValidator {
-    // 密码必须包含数字和字母，长度8-20位
-    private static final Pattern PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$");
+    /**
+     * 密码规则：8-20位，必须包含数字和字母
+     */
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z]).{8,20}$";
 
     public static boolean isValid(String password) {
-        return PATTERN.matcher(password).matches();
+        return password != null && password.matches(PASSWORD_PATTERN);
     }
 
     public static String getPasswordRule() {

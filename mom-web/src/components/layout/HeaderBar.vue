@@ -43,7 +43,8 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { logout } from '@/api/auth'
 import { 
   Timer, 
   CaretBottom, 
@@ -102,17 +103,30 @@ const handleCommand = async (command) => {
       break
     case 'logout':
       try {
-        await ElMessage.confirm('确认退出登录吗？', '提示', {
+        console.log('开始退出登录流程')
+        
+        await ElMessageBox.confirm('确认退出登录吗？', '提示', {
           type: 'warning',
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         })
-        localStorage.removeItem('token')
-        localStorage.removeItem('userInfo')
-        router.push('/login')
-        ElMessage.success('退出登录成功')
-      } catch {
-        // 取消退出
+        
+        console.log('用户确认退出')
+        
+        try {
+          console.log('调用登出API')
+          const response = await logout()
+          console.log('登出API响应:', response)
+          
+          localStorage.clear()
+          router.push('/login')
+          ElMessage.success('退出登录成功')
+        } catch (error) {
+          console.error('登出失败:', error)
+          ElMessage.error('退出登录失败：' + (error.response?.data?.message || error.message || '未知错误'))
+        }
+      } catch (error) {
+        console.log('用户取消退出:', error)
       }
       break
   }
