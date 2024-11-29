@@ -4,13 +4,28 @@
     <el-card class="search-card">
       <el-form :model="queryParams" inline>
         <el-form-item label="用户名">
-          <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable />
+          <el-input 
+            v-model="queryParams.username" 
+            placeholder="请输入用户名" 
+            clearable 
+            class="query-input"
+          />
         </el-form-item>
         <el-form-item label="真实姓名">
-          <el-input v-model="queryParams.realName" placeholder="请输入真实姓名" clearable />
+          <el-input 
+            v-model="queryParams.realName" 
+            placeholder="请输入真实姓名" 
+            clearable 
+            class="query-input"
+          />
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable>
+          <el-select 
+            v-model="queryParams.status" 
+            placeholder="请选择状态" 
+            clearable
+            class="query-select"
+          >
             <el-option label="启用" :value="1" />
             <el-option label="禁用" :value="0" />
           </el-select>
@@ -258,5 +273,41 @@ onMounted(() => {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+/* 表单项样式 */
+:deep(.el-form-item) {
+  margin-right: 18px;
+  margin-bottom: 18px;
+}
+
+/* 输入框统一宽度 */
+:deep(.query-input) {
+  width: 180px !important;
+}
+
+/* 选择框样式调整 */
+:deep(.query-select) {
+  width: 120px !important;  /* 调整状态选择框宽度 */
+}
+
+/* 下拉框样式 */
+:deep(.el-select-dropdown) {
+  min-width: 120px !important;  /* 确保下拉框宽度与选择框一致 */
+}
+
+/* 选择框内容区域调整 */
+:deep(.el-select .el-input__wrapper) {
+  padding: 0 30px 0 12px !important;  /* 左右内边距调整 */
+}
+
+/* 下拉选项样式 */
+:deep(.el-select-dropdown__item) {
+  padding: 0 12px !important;  /* 选项内边距调整 */
+}
+
+/* 按钮间距 */
+.el-button + .el-button {
+  margin-left: 12px;
 }
 </style> 

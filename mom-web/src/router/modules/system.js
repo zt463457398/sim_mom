@@ -1,11 +1,10 @@
-import BaseLayout from '@/components/layout/BaseLayout.vue'
-
 export default {
   path: '/system',
-  component: BaseLayout,
+  component: () => import('@/components/layout/BaseLayout.vue'),
   meta: {
     title: '系统管理',
-    icon: 'Setting'
+    icon: 'Setting',
+    requiresAuth: true
   },
   children: [
     {
@@ -13,9 +12,7 @@ export default {
       name: 'UserList',
       component: () => import('@/views/system/user/UserList.vue'),
       meta: {
-        title: '用户管理',
-        icon: 'User',
-        requiresAuth: true
+        title: '用户管理'
       }
     }
   ]

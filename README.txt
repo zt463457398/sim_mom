@@ -21,6 +21,30 @@ SIM_MOM 系统说明文档
    - 个人中心：个人信息维护
    - 系统配置：跨域等基础配置
 
+3. 开发和构建说明
+   前端开发：
+   ```bash
+   # 进入前端项目目录
+   cd mom-web
+   
+   # 安装依赖
+   npm install
+   
+   # 启动开发服务器
+   npm run serve
+   ```
+
+   前端构建：
+   ```bash
+   # 构建生产环境版本
+   npm run build
+   ```
+
+   注意事项：
+   - 开发环境下使用 npm run serve，代码不会进行优化
+   - 部署生产环境前必须使用 npm run build 构建优化版本
+   - 生产环境构建会自动进行代码压缩、Tree-shaking等优化
+
 二、技术架构
 ----------
 1. 后端技术栈
@@ -54,7 +78,7 @@ SIM_MOM 系统说明文档
 2. 前端核心目录(mom-web)
    ```
    src/
-   ├─�� api/        # 接口封装
+   ├── api/        # 接口封装
    ├── views/      # 页面组件
    ├── components/ # 公共组件
    ├── router/     # 路由配置
@@ -65,10 +89,12 @@ SIM_MOM 系统说明文档
 四、关键文件说明
 -------------
 1. 后端关键文件
-   - SysUserController.java  # 用户管理接口
-   - SysUserServiceImpl.java # 用户业务实现
-   - R.java                  # 统一响应封装
-   - sys_user.sql           # 数据库脚本
+   - SysUserController.java    # 用户管理接口
+   - SysUserServiceImpl.java   # 用户业务实现
+   - R.java                    # 统一响应封装
+   - GlobalExceptionHandler.java # 全局异常处理
+   - TokenException.java       # Token异常处理
+   - sys_user.sql             # 数据库脚本
 
 2. 前端关键文件
    - request.js             # 请求封装
@@ -108,15 +134,19 @@ SIM_MOM 系统说明文档
 七、待优化项(优先级排序)
 --------------------
 1. 紧急优化项
-   a. 完善异常处理机制
-      - 实现统一异常处理类GlobalExceptionHandler
-      - 定义业务异常类BusinessException
-      - 细化异常错误码和提示信息
+   a. 扩展异常处理机制（基于现有异常处理框架）
+      - 扩展现有异常体系
+        * 基于TokenException完善认证异常体系
+        * 添加业务异常类BusinessException
+        * 细化验证异常ValidateException
+      - 优化错误提示信息
+      - 增强异常日志记录
       - 实现步骤：
-        1) 创建异常处理基类和错误码枚举
-        2) 实现全局异常处理器
-        3) 添加业务异常处理逻辑
-        4) 完善日志记录
+        1) 完善异常继承体系
+        2) 在GlobalExceptionHandler中细化异常处理
+        3) 统一异常错误码管理
+        4) 优化异常提示信息的用户友好度
+        5) 增加异常日志的上下文信息
 
    b. 添加操作日志记录
       - 实现AOP切面记录操作日志
@@ -227,6 +257,7 @@ SIM_MOM 系统说明文档
    - 本地配置文件不要提交
    - 定期同步主分支代码
    - 保持代码简洁性
+   - Token相关异常统一使用TokenException处理
 
 2. 部署注意事项
    - 备份数据库后再操作

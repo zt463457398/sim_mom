@@ -1,7 +1,14 @@
 package com.zhgw.common.exception;
 
-public class TokenException extends RuntimeException {
+/**
+ * Token异常类
+ */
+public class TokenException extends BusinessException {
     public TokenException(String message) {
-        super(message);
+        super(401, message);
+    }
+
+    public TokenException(int code, String message) {
+        super(code, message);
     }
 } 

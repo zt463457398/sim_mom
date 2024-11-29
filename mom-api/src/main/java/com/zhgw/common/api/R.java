@@ -21,4 +21,8 @@ public class R<T> {
     public static <T> R<T> fail(String msg) {
         return new R<>(500, msg, null);
     }
+
+    public static <T> R<T> error(int code, String message) {
+        return new R<>(code, message, null);
+    }
 } 

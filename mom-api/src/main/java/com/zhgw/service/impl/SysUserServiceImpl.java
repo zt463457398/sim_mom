@@ -17,6 +17,9 @@ import com.zhgw.model.param.UserUpdateParam;
 import com.zhgw.model.vo.LoginVO;
 import com.zhgw.model.vo.PageVO;
 import com.zhgw.service.SysUserService;
+import com.zhgw.common.exception.BusinessException;
+import com.zhgw.common.exception.ValidateException;
+import com.zhgw.common.enums.ErrorCodeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 参数校验
         if (loginParam == null || !StringUtils.hasText(loginParam.getUsername()) 
             || !StringUtils.hasText(loginParam.getPassword())) {
-            throw new IllegalArgumentException("用户名或密码不能为空");
+            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR.getCode(), "用户名或密码不能为空");
         }
 
         // 查询用户
@@ -84,7 +87,8 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUser updateProfile(Long userId, ProfileUpdateParam param) {
         SysUser user = sysUserMapper.selectById(userId);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND.getCode(), 
+                                      ErrorCodeEnum.USER_NOT_FOUND.getMessage());
         }
 
         // 更新用户信息
@@ -113,18 +117,20 @@ public class SysUserServiceImpl implements SysUserService {
     public void updatePassword(Long userId, PasswordUpdateParam param) {
         // 参数校验
         if (!param.getNewPassword().equals(param.getConfirmPassword())) {
-            throw new RuntimeException("两次输入的密码不一致");
+            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR.getCode(), "两次输入的密码不一致");
         }
 
         // 查询用户
         SysUser user = sysUserMapper.selectById(userId);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND.getCode(), 
+                                      ErrorCodeEnum.USER_NOT_FOUND.getMessage());
         }
 
         // 验证旧密码
         if (!PasswordEncoder.matches(param.getOldPassword(), user.getPassword())) {
-            throw new RuntimeException("原密码错误");
+            throw new BusinessException(ErrorCodeEnum.USER_PASSWORD_ERROR.getCode(), 
+                                      ErrorCodeEnum.USER_PASSWORD_ERROR.getMessage());
         }
 
         // 更新密码
@@ -180,14 +186,16 @@ public class SysUserServiceImpl implements SysUserService {
     public void addUser(UserAddParam param) {
         // 验证密码强度
         if (!PasswordValidator.isValid(param.getPassword())) {
-            throw new RuntimeException(PasswordValidator.getPasswordRule());
+            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID.getCode(), 
+                                      ErrorCodeEnum.USER_PASSWORD_INVALID.getMessage());
         }
         
         // 检查用户名是否已存在
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysUser::getUsername, param.getUsername());
         if (sysUserMapper.selectCount(wrapper) > 0) {
-            throw new RuntimeException("用户名已存在");
+            throw new BusinessException(ErrorCodeEnum.USER_EXISTS.getCode(), 
+                                      ErrorCodeEnum.USER_EXISTS.getMessage());
         }
 
         // 创建新用户
@@ -209,7 +217,8 @@ public class SysUserServiceImpl implements SysUserService {
         // 检查用户是否存在
         SysUser existUser = sysUserMapper.selectById(param.getId());
         if (existUser == null) {
-            throw new RuntimeException("用户不存在");
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND.getCode(), 
+                                      ErrorCodeEnum.USER_NOT_FOUND.getMessage());
         }
 
         // 更新用户信息
@@ -228,13 +237,15 @@ public class SysUserServiceImpl implements SysUserService {
     public void resetPassword(ResetPasswordParam param) {
         // 验证密码强度
         if (!PasswordValidator.isValid(param.getPassword())) {
-            throw new RuntimeException(PasswordValidator.getPasswordRule());
+            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID.getCode(), 
+                                      ErrorCodeEnum.USER_PASSWORD_INVALID.getMessage());
         }
         
         // 检查用户是否存在
         SysUser existUser = sysUserMapper.selectById(param.getUserId());
         if (existUser == null) {
-            throw new RuntimeException("用户不存在");
+            throw new BusinessException(ErrorCodeEnum.USER_NOT_FOUND.getCode(), 
+                                      ErrorCodeEnum.USER_NOT_FOUND.getMessage());
         }
 
         // 更新密码
