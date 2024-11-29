@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.zhgw.common.config.JwtConfig",
+      "sourceType": "com.zhgw.common.config.JwtConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "sourceType": "com.zhgw.common.config.JwtConfig"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.zhgw.common.config.JwtConfig"
+    }
+  ],
+  "hints": []
+}
