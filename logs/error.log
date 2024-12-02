@@ -1,21 +1,3 @@
-2024-12-02 14:05:37.290 [main] INFO  [] com.zhgw.MomApiApplication - Starting MomApiApplication using Java 18.0.2.1 with PID 13724 (E:\myAiCode\sim_mom\mom-api\target\classes started by 847503085 in E:\myAiCode\sim_mom)
-2024-12-02 14:05:37.295 [main] INFO  [] com.zhgw.MomApiApplication - The following 1 profile is active: "dev"
-2024-12-02 14:05:39.812 [main] INFO  [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2024-12-02 14:05:39.824 [main] INFO  [] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2024-12-02 14:05:39.829 [main] INFO  [] o.a.catalina.core.StandardService - Starting service [Tomcat]
-2024-12-02 14:05:39.832 [main] INFO  [] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
-2024-12-02 14:05:39.967 [main] INFO  [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2024-12-02 14:05:39.968 [main] INFO  [] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2544 ms
-2024-12-02 14:05:41.709 [main] INFO  [] o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
-2024-12-02 14:05:41.773 [main] INFO  [] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-2024-12-02 14:05:41.823 [main] INFO  [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2024-12-02 14:05:41.846 [main] INFO  [] com.zhgw.MomApiApplication - Started MomApiApplication in 5.366 seconds (process running for 5.807)
-2024-12-02 14:11:35.059 [http-nio-8080-exec-1] INFO  [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-12-02 14:11:35.060 [http-nio-8080-exec-1] INFO  [] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-12-02 14:11:35.061 [http-nio-8080-exec-1] INFO  [] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-12-02 14:11:46.419 [http-nio-8080-exec-4] INFO  [f603ec9783534ce6aa42fe01b3760cb3] c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2024-12-02 14:11:49.346 [http-nio-8080-exec-4] INFO  [f603ec9783534ce6aa42fe01b3760cb3] c.z.service.impl.SysUserServiceImpl - 用户登录成功: admin
-2024-12-02 14:12:32.735 [http-nio-8080-exec-3] INFO  [27fbd9ebc82c4f09bf875ebebbb86aa5] c.z.service.impl.SysUserServiceImpl - 用户登录成功: admin
 2024-12-02 14:14:14.801 [http-nio-8080-exec-1] ERROR [c717edcdfa164062a2a73603d8da07be] c.z.c.e.GlobalExceptionHandler - [唯一约束异常] [TraceId: c717edcdfa164062a2a73603d8da07be] - 错误码: 20703, 消息: 用户名已存在, 时间: 2024-12-02T14:14:14.801511100, 上下文: {traceId=c717edcdfa164062a2a73603d8da07be, method=POST, clientIP=0:0:0:0:0:0:0:1, userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36, originalMessage=Duplicate entry 'zhangsan' for key 'sys_user.uk_username', uri=/api/user, userId=1, username=a****}
 com.zhgw.common.exception.BusinessException: 用户名已存在
 	at com.zhgw.common.exception.GlobalExceptionHandler.handleDuplicateKeyException(GlobalExceptionHandler.java:91)
@@ -78,5 +60,3 @@ com.zhgw.common.exception.BusinessException: 用户名已存在
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:833)
-2024-12-02 14:14:37.851 [http-nio-8080-exec-9] INFO  [7d238100d3b04e61b0174f1a0063b9aa] c.z.service.impl.SysUserServiceImpl - 用户状态更新: userId=6, status=0
-2024-12-02 14:14:39.787 [http-nio-8080-exec-10] INFO  [17975c8899944a0abf85940b1b182918] c.z.service.impl.SysUserServiceImpl - 用户状态更新: userId=6, status=1

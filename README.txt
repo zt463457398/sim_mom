@@ -5,14 +5,14 @@ SIM_MOM 系统说明文档
 ----------
 1. 环境要求
    后端环境：
-   - JDK 17+
+   - JDK 18
    - Maven 3.8+
    - MySQL 8.0+
 
    前端环境：
    - Node.js 16+
    - npm 8+
-   - Vue 3.x
+   - Vue 3.2.13
    - Vue CLI 5.x
 
 2. 核心功能模块
@@ -48,18 +48,20 @@ SIM_MOM 系统说明文档
 二、技术架构
 ----------
 1. 后端技术栈
-   - Spring Boot 3
-   - MyBatis Plus
+   - Spring Boot 3.3.5
+   - MyBatis Plus 3.5.5
    - MySQL
    - JWT
    - Maven
+   - Druid 1.2.20
 
 2. 前端技术栈
-   - Vue 3
-   - Element Plus
-   - Vue Router
-   - Axios
-   - Vue CLI
+   - Vue 3.2.13
+   - Element Plus 2.8.8
+   - Vue Router 4.4.5
+   - Axios 1.7.7
+   - Vue CLI 5.x
+   - @element-plus/icons-vue 2.3.1
 
 三、项目结构
 ----------
@@ -94,6 +96,13 @@ SIM_MOM 系统说明文档
    - R.java                    # 统一响应封装
    - GlobalExceptionHandler.java # 全局异常处理
    - TokenException.java       # Token异常处理
+   - BusinessException.java    # 业务异常基类
+   - FileException.java        # 文件操作异常
+   - LogUtils.java            # 日志工具类
+   - SensitiveDataUtils.java  # 数据脱敏工具类
+   - LogInterceptor.java      # 日志拦截器
+   - logback-spring.xml       # 日志配置文件
+   - WebMvcConfig.java        # Web配置类
    - sys_user.sql             # 数据库脚本
 
 2. 前端关键文件
@@ -110,10 +119,24 @@ SIM_MOM 系统说明文档
 
 2. 安全规范
    - 所有接口必须进行权限校验
-   - 敏感数据必须加密传输
+   - 敏感数据必须加密传输和脱敏处理
    - 定期更新密钥和证书
+   - 日志中的敏感信息必须脱敏
 
-3. Git使用规范
+3. 日志规范
+   - 遵循统一的日志格式规范
+   - 错误日志必须包含完整上下文信息
+   - 敏感数据必须进行脱敏处理
+   - 遵循以下脱敏规则：
+     * 手机号码：保留前3位和后4位，如138****5678
+     * 邮箱：仅显示首尾字符，如u***r@domain.com
+     * 身份证号：保留前6位和后4位，如440123********1234
+     * 银行卡号：仅显示后4位，如************1234
+     * 姓名：仅显示第一个字符，如张***
+     * 密码：全部替换为******
+     * 地址：保留前10个字符，后跟****
+
+4. Git使用规范
    - 遵循Git Flow工作流
    - 提交信息格式: type: message
    - 定期代码review
@@ -126,7 +149,31 @@ SIM_MOM 系统说明文档
    - 应用服务部署
    - 配置文件检查
 
-2. 监控告警
+2. 日志管理
+   - 日志文件结构：
+     * mom-api.log：系统主日志
+     * error.log：错误日志
+     * archived/：归档目录
+   - 日志归档策略：
+     * 按天归档
+     * 单个文件最大100MB
+     * 系统日志保留30天，总大小限制20GB
+     * 错误日志保留30天，总大小限制10GB
+   - 日志格式：
+     * 时间戳
+     * 线程信息
+     * 日志级别
+     * 追踪ID
+     * 日志内容（自动脱敏）
+   - 开发环境：
+     * 同时输出到控制台和文件
+     * 保留完整日志信息
+   - 生产环境：
+     * 仅文件输出
+     * 异步写入提升性能
+     * 自动压缩归档
+
+3. 监控告警
    - 服务器监控配置
    - 异常告警阈值设置
    - 应急响应流程

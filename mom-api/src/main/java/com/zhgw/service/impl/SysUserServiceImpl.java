@@ -41,7 +41,7 @@ public class SysUserServiceImpl implements SysUserService {
         // 参数校验
         if (loginParam == null || !StringUtils.hasText(loginParam.getUsername()) 
             || !StringUtils.hasText(loginParam.getPassword())) {
-            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR.getCode(), "用户名或密码不能为空");
+            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR, "用户名或密码不能为空");
         }
 
         // 查询用户
@@ -117,7 +117,7 @@ public class SysUserServiceImpl implements SysUserService {
     public void updatePassword(Long userId, PasswordUpdateParam param) {
         // 参数校验
         if (!param.getNewPassword().equals(param.getConfirmPassword())) {
-            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR.getCode(), "两次输入的密码不一致");
+            throw new ValidateException(ErrorCodeEnum.PARAM_ERROR, "两次输入的密码不一致");
         }
 
         // 查询用户
@@ -186,8 +186,7 @@ public class SysUserServiceImpl implements SysUserService {
     public void addUser(UserAddParam param) {
         // 验证密码强度
         if (!PasswordValidator.isValid(param.getPassword())) {
-            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID.getCode(), 
-                                      ErrorCodeEnum.USER_PASSWORD_INVALID.getMessage());
+            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID);
         }
         
         // 检查用户名是否已存在
@@ -237,8 +236,7 @@ public class SysUserServiceImpl implements SysUserService {
     public void resetPassword(ResetPasswordParam param) {
         // 验证密码强度
         if (!PasswordValidator.isValid(param.getPassword())) {
-            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID.getCode(), 
-                                      ErrorCodeEnum.USER_PASSWORD_INVALID.getMessage());
+            throw new ValidateException(ErrorCodeEnum.USER_PASSWORD_INVALID);
         }
         
         // 检查用户是否存在
